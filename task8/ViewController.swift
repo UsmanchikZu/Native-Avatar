@@ -9,8 +9,8 @@ import UIKit
 class ViewController: UIViewController, UIScrollViewDelegate {
     
     private let scrollView = UIScrollView()
-    private let contentView = UIView() // Контейнер для пустого содержимого
-    private var largeTitleImageView: UIImageView? // Для хранения ссылки на ваш imageView
+    private let contentView = UIView()
+    private var largeTitleImageView: UIImageView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,14 +22,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         setupScrollView()
         setupEmptyContent()
 
-        // Теперь вызываем getLargeTitleView для получения изображения
         largeTitleImageView = getLargeTitleView()
 
-        // Проверьте, что navigationBar не nil
         if let largeTitleImageView = largeTitleImageView, let navigationBar = navigationController?.navigationBar {
             navigationBar.addSubview(largeTitleImageView)
 
-            // Устанавливаем constraints для largeTitleImageView
             NSLayoutConstraint.activate([
                 largeTitleImageView.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -16),
                 largeTitleImageView.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -10),
@@ -42,7 +39,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.delegate = self // Устанавливаем делегат
+        scrollView.delegate = self
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -51,7 +48,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        // Добавляем пустое содержимое в UIScrollView
         scrollView.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -66,11 +62,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setupEmptyContent() {
-        // Здесь можно настроить любое пустое содержимое, если нужно
         let emptyView = UIView()
         emptyView.backgroundColor = .clear
 
-        // Добавьте дополнительные настройки или элементы, если нужно
         contentView.addSubview(emptyView)
     }
 
@@ -81,18 +75,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let image = UIImage(systemName: "person.crop.circle.fill")?.withConfiguration(symbolConfiguration)
 
         imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false // Обязательно
+        imageView.translatesAutoresizingMaskIntoConstraints = false
 
         return imageView
     }
 
-    // UIScrollViewDelegate метод
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Проверяем, нужно ли скрыть изображение
         if scrollView.contentOffset.y > 0 {
-            largeTitleImageView?.isHidden = true // Скрываем изображение
+            largeTitleImageView?.isHidden = true
         } else {
-            largeTitleImageView?.isHidden = false // Показываем изображение
+            largeTitleImageView?.isHidden = false 
         }
     }
 }
